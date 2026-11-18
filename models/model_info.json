@@ -1,0 +1,66 @@
+{
+  "version": "1.0.0",
+  "date_entrainement": "2026-11-18",
+  "seuil": 0.36186320118962,
+  "colonnes": [
+    "revenu_mensuel",
+    "nombre_experiences_precedentes",
+    "annee_experience_totale",
+    "annees_dans_l_entreprise",
+    "satisfaction_employee_environnement",
+    "note_evaluation_precedente",
+    "satisfaction_employee_nature_travail",
+    "satisfaction_employee_equipe",
+    "satisfaction_employee_equilibre_pro_perso",
+    "note_evaluation_actuelle",
+    "heure_supplementaires",
+    "augmentation_salaire_precedente",
+    "nombre_participation_pee",
+    "nb_formations_suivies",
+    "distance_domicile_travail",
+    "niveau_education",
+    "frequence_deplacement",
+    "annees_depuis_la_derniere_promotion",
+    "part_carriere_entreprise",
+    "part_anciennete_poste_actuel",
+    "nb_satisfactions_faibles",
+    "duree_moyenne_par_employeur",
+    "poste_Assistant de Direction",
+    "poste_Cadre Commercial",
+    "poste_Consultant",
+    "poste_Directeur Technique",
+    "poste_Manager",
+    "poste_Représentant Commercial",
+    "poste_Ressources Humaines",
+    "poste_Senior Manager",
+    "poste_Tech Lead",
+    "domaine_etude_Autre",
+    "domaine_etude_Entrepreneuriat",
+    "domaine_etude_Infra & Cloud",
+    "domaine_etude_Marketing",
+    "domaine_etude_Ressources Humaines",
+    "domaine_etude_Transformation Digitale"
+  ],
+  "parametres": {
+    "depth": 2,
+    "iterations": 761,
+    "learning_rate": 0.02544166090938368,
+    "l2_leaf_reg": 9.51975448269268,
+    "random_strength": 2.600340105889054
+  },
+  "metriques_test": {
+    "precision": 0.32,
+    "rappel": 0.79,
+    "average_precision": 0.54,
+    "matrice_confusion": [
+      [
+        168,
+        79
+      ],
+      [
+        10,
+        37
+      ]
+    ]
+  }
+}
