@@ -1,7 +1,9 @@
 # Entraîne le modèle CatBoost du projet d'attrition et l'enregistre dans models/
-# Lancement : uv run python -m scripts.train
+# Lancement : uv run python -m scripts.train          (à partir des fichiers CSV)
+#             uv run python -m scripts.train --base   (à partir de la base PostgreSQL)
 
 import json
+import sys
 from datetime import date
 
 import numpy as np
@@ -30,7 +32,11 @@ def creer_modele():
 
 
 def main():
-    df = charger_donnees("data")
+    if "--base" in sys.argv:
+        from app.database import lire_employes_connus
+        df = lire_employes_connus()
+    else:
+        df = charger_donnees("data")
     X = preparer_features(df)
     y = df[CIBLE]
     print("X :", X.shape, "- départs :", y.sum())
