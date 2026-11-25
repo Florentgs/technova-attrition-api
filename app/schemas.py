@@ -74,3 +74,26 @@ class Prediction(BaseModel):
     risque_depart: bool
     seuil: float
     version_modele: str
+
+
+EXEMPLE_EMPLOYE = Employe.model_config["json_schema_extra"]["examples"][0]
+
+
+class NouvelEmploye(Employe):
+    """Employé à ajouter dans la base (mêmes données, plus l'identifiant et l'issue si elle est connue)."""
+
+    id_employee: int = Field(gt=0, description="Identifiant SIRH de l'employé")
+    a_quitte_l_entreprise: Literal["Oui", "Non"] | None = Field(default=None, description="Vide si pas encore connu")
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [{"id_employee": 3000, **EXEMPLE_EMPLOYE, "a_quitte_l_entreprise": None}]
+        }
+    }
+
+
+class EmployeAjoute(BaseModel):
+    """Réponse après l'ajout d'un employé."""
+
+    id_employee: int
+    message: str

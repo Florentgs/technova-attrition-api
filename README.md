@@ -22,7 +22,7 @@ Le modèle est enregistré dans `models/model.cbm`, et ses informations (version
 
 ## Lancer les tests
 
-    uv run pytest
+    uv run pytest --cov=app
 
 ## Lancer l'API
 
@@ -40,6 +40,7 @@ La documentation interactive (Swagger) est disponible sur http://127.0.0.1:8000/
 
 - `GET /health` : vérifie que l'API fonctionne et donne la version du modèle (sans authentification).
 - `POST /predict` : renvoie la probabilité de départ d'un employé à partir de ses données, et indique s'il est à risque (probabilité supérieure au seuil de 0,36).
+- `POST /employes` : ajoute un employé dans la base. Le modèle n'est pas réentraîné : l'employé servira au prochain entraînement.
 
 ## Authentification et sécurité
 
@@ -52,3 +53,49 @@ Les données envoyées sont vérifiées par Pydantic (types, bornes, valeurs aut
 Exemple d'appel avec curl :
 
     curl -X POST http://127.0.0.1:8000/predict -H "X-API-Key: votre_cle" -H "Content-Type: application/json" -d @exemple.json
+
+## Base de données
+
+La base PostgreSQL contient deux tables :
+
+- `employes` : données RH des employés (fichiers d'origine et employés ajoutés par l'API), utilisées pour entraîner le modèle ;
+- `predictions` : chaque appel au modèle, avec les données envoyées, la probabilité, le résultat, le seuil et la version du modèle.
+
+```mermaid
+erDiagram
+    EMPLOYES {
+        int id_employee PK
+        float revenu_mensuel
+        string poste
+        int annees_dans_l_entreprise
+        string heure_supplementaires
+        int a_quitte_l_entreprise "1 parti, 0 reste, vide si inconnu"
+        string source "fichier ou api"
+        datetime date_ajout
+    }
+    PREDICTIONS {
+        int id PK
+        datetime date_prediction
+        json donnees_entree "donnees envoyees a /predict"
+        float probabilite_depart
+        bool risque_depart
+        float seuil
+        string version_modele
+    }
+```
+
+La liste complète des colonnes est dans `app/database.py`.
+
+Création de la base, de l'utilisateur de l'API et insertion des employés (renseigner d'abord `DATABASE_URL` et `ADMIN_DATABASE_URL` dans `.env`) :
+
+    uv run python -m scripts.create_db
+
+L'API se connecte avec un utilisateur qui peut seulement lire et ajouter des lignes. Les identifiants de connexion sont dans `.env`, non versionné.
+
+Exemples de requêtes et export des prédictions dans `exemples/predictions.csv` :
+
+    uv run python -m scripts.requetes
+
+Réentraîner le modèle à partir de la base (employés dont on sait s'ils sont partis ou restés) :
+
+    uv run python -m scripts.train --base

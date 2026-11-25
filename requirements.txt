@@ -61,6 +61,10 @@ pillow==13.0.0
     # via matplotlib
 plotly==7.1.0
     # via catboost
+psycopg==3.3.9
+    # via technova-attrition-api
+psycopg-binary==3.3.9 ; implementation_name != 'pypy'
+    # via psycopg
 pydantic==2.14.4
     # via fastapi
 pydantic-core==2.50.5
@@ -81,6 +85,8 @@ scipy==1.18.1
     #   scikit-learn
 six==1.17.0
     # via catboost
+sqlalchemy==2.1.9
+    # via technova-attrition-api
 starlette==1.10.0
     # via fastapi
 threadpoolctl==3.8.0
@@ -90,8 +96,10 @@ typing-extensions==4.16.0
     #   anyio
     #   fastapi
     #   opentelemetry-api
+    #   psycopg
     #   pydantic
     #   pydantic-core
+    #   sqlalchemy
     #   starlette
     #   typing-inspection
 typing-inspection==0.4.5
@@ -101,6 +109,7 @@ typing-inspection==0.4.5
 tzdata==2026.6
     # via
     #   pandas
+    #   psycopg
     #   python-dateutil
 uvicorn==0.54.0
     # via technova-attrition-api
